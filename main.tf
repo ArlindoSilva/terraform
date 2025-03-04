@@ -8,9 +8,6 @@ terraform {
   }
 }
 
-variable "do_token" {
-  default = "do_token"
-}
 #Passar o token pelo terminal com o comando: export TF_VAR_do_token="codigodotoken"
 provider "digitalocean" {
   token = var.do_token
@@ -18,42 +15,42 @@ provider "digitalocean" {
 
 resource "digitalocean_droplet" "vm_aula_terraform" {
   image    = "ubuntu-22-04-x64"
-  name     = "vm-aula-terraform"
-  region   = "nyc1"
-  size     = "s-1vcpu-1gb"
+  name     = var.droplet_name
+  region   = var.droplet_region
+  size     = var.droplet_size
   ssh_keys = [data.digitalocean_ssh_key.ssh_key.id]
 }
 
 data "digitalocean_ssh_key" "ssh_key" {
-  name = "aula-terraform"
+  name = var.ssh_key_name
 }
 
 resource "digitalocean_firewall" "firewall_aula" {
-  name = "firewall-aula"
+  name = var.firewall_aula_name
 
   droplet_ids = [digitalocean_droplet.vm_aula_terraform.id]
 
   inbound_rule {
     protocol         = "tcp"
-    port_range       = "22"
+    port_range       = "22" # Porta ssh 
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
-  
+
   inbound_rule {
     protocol         = "tcp"
-    port_range       = "53"
+    port_range       = "53"  # Porta para fazer instalação dos pacotes
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
-  
+
   inbound_rule {
     protocol         = "tcp"
-    port_range       = "80"
+    port_range       = "80"   # Porta http 
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
-  
+
   inbound_rule {
     protocol         = "tcp"
-    port_range       = "443"
+    port_range       = "443"   # Porta https 
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
 
@@ -63,22 +60,42 @@ resource "digitalocean_firewall" "firewall_aula" {
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 
-   outbound_rule {
+  outbound_rule {
     protocol              = "tcp"
     port_range            = "53"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 
-   outbound_rule {
+  outbound_rule {
     protocol              = "tcp"
     port_range            = "80"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 
-   outbound_rule {
+  outbound_rule {
     protocol              = "tcp"
     port_range            = "443"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 
+}
+
+variable "do_token" {}
+
+variable "droplet_name" {}
+
+variable "droplet_region" {
+  default = "nyc1"
+}
+
+variable "droplet_size" {
+  default = "s-1vcpu-1gb"
+}
+
+variable "ssh_key_name" {
+  default = "aula-terraform"
+}
+
+variable "firewall_aula_name" {
+  default = "firewall-aula"
 }
