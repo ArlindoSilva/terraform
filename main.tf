@@ -38,19 +38,19 @@ resource "digitalocean_firewall" "firewall_aula" {
 
   inbound_rule {
     protocol         = "tcp"
-    port_range       = "53"  # Porta para fazer instalação dos pacotes
+    port_range       = "53" # Porta para fazer instalação dos pacotes
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
 
   inbound_rule {
     protocol         = "tcp"
-    port_range       = "80"   # Porta http 
+    port_range       = "80" # Porta http 
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
 
   inbound_rule {
     protocol         = "tcp"
-    port_range       = "443"   # Porta https 
+    port_range       = "443" # Porta https 
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
 
@@ -98,4 +98,8 @@ variable "ssh_key_name" {
 
 variable "firewall_aula_name" {
   default = "firewall-aula"
+}
+
+output "droplet_ip" {
+  value = digitalocean_droplet.vm_aula_terraform.ipv4_address
 }
