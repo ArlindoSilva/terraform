@@ -1,1 +1,1 @@
-conteudo = "Novo conteudo do arquivo"
+conteudo = 10
