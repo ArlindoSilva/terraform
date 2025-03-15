@@ -1,1 +1,1 @@
-true
+O valor que vou passar de máquina é Maquina01
