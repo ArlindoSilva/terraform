@@ -1,1 +1,5 @@
-conteudo = ["s-1vcpu-2gb", "s-1vcpu-4gb", "s-1vcpu-8gb", "outra_maquina"]
+conteudo = {
+  region        = "nyc1",
+  opcao_maquina = "media",
+  fazer_bkp     = false
+}

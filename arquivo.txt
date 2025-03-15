@@ -1,1 +1,1 @@
-O valor que vou passar de máquina é outra_maquina, s-1vcpu-2gb, s-1vcpu-4gb, s-1vcpu-8gb
+O valor que vou passar de máquina é nyc1 - media - false 
