@@ -1,1 +1,1 @@
-O valor que vou passar de máquina é Maquina01
+O valor que vou passar de máquina é s-1vcpu-2gb
