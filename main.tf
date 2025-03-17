@@ -18,15 +18,11 @@ resource "local_file" "arquivo_string" {
   filename = "arquivo-string.txt"
 }
 
-#O valor da variavel é passado pelo terminal, ex:
-# $ export TF_VAR_conteudo_string="Passando uma variável pelo terminal"
+#Também é possível criar um 'arquivo.tfvars' e setar esse aquivo quando for passar o comando apply, ex:
+# $ terraform apply -var-file=arquivo.tfvars
 
-#Se for a lista de string:
-# $ export TF_VAR_lista_nomes='["Maquina01", "Maquina02"]'
+# A terceira forma é passar a variável com o valor quando for usar o apply, ex:
+# $ terraform apply -var="conteudo_string=Teste de variável passada pelo terminal" -var='lista_nomes=["Maquina05", "Maquina06"]'
 
-#Consultar as variaveis passadas e os valores:
-# $ env | grep TF_VAR
-
-# PARA RETIRAR AS VARIAVEIS PASSADAS:
-# $ unset TF_VAR_conteudo_string
-# $ unset TF_VAR_lista_nomes
+#Quando a variável passada direto na linha de comando ou com arquivo var-file, sobrescreve as demais formas. 
+#A segundo forma na prioridade de execução é com arquivo .tfvars e por último utilizando TF_VAR_nome_variavel
