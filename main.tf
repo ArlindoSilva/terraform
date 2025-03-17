@@ -10,16 +10,18 @@ terraform {
 
 resource "digitalocean_droplet" "vm_aula_terraform" {
   image    = "ubuntu-22-04-x64"
-  name     = var.droplet_name
+  name     = "${var.droplet_name}-${count.index}"
   region   = var.droplet_region
   size     = var.droplet_size
   ssh_keys = [data.digitalocean_ssh_key.ssh_key.id]
+  count    = var.vms_count
 }
 
 resource "digitalocean_firewall" "firewall_aula" {
   name = var.firewall_aula_name
 
-  droplet_ids = [digitalocean_droplet.vm_aula_terraform.id]
+  droplet_ids = digitalocean_droplet.vm_aula_terraform[*].id
+  # Foi retirado o colchete de fora, pois o retorno já é uma lista
 
   inbound_rule {
     protocol         = "tcp"
