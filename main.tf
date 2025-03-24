@@ -8,12 +8,18 @@ terraform {
   }
 }
 
+# Vai criar a chave ssh na digital ocean
+resource "digitalocean_ssh_key" "ssh" {
+  name       = "aula-terraform"
+  public_key = file("~/.ssh/id_ed25519.pub")
+}
+
 resource "digitalocean_droplet" "vm_aula_terraform" {
   image    = "ubuntu-22-04-x64"
   name     = "${var.droplet_name}-${count.index}"
   region   = var.droplet_region
   size     = var.droplet_size
-  ssh_keys = [data.digitalocean_ssh_key.ssh_key.id]
+  ssh_keys = [resource.digitalocean_ssh_key.ssh.fingerprint]
   count    = var.vms_count
 }
 
